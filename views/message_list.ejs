@@ -1,0 +1,17 @@
+<% if(message_list.length){ %>
+    <ul class="message-list">
+        <% for(let message of message_list){ %>
+            <li class="message">
+                <%if(message.user_id){ %>
+                    <a href="<%=message.user_id.url%>">
+                        <strong><%=message.user_id.name%></strong>
+                    </a>
+                <% } %>
+                <div class="message-content"><%=message.message%></div>
+                <a href="<%=message.url%>"><%=message.publish_date_formatted%></a>
+            </li>
+        <% } %>
+    </ul>
+<% } else { %>
+    <div class="no-messages">There are no messages.</div>
+<% } %>

@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const { DateTime } = require("luxon");
+
 
 const Schema = mongoose.Schema;
 
@@ -11,7 +13,12 @@ const MessageSchema = new Schema({
 // Virtual for author's URL
 MessageSchema.virtual("url").get(function () {
   // We don't use an arrow function as we'll need the this object
-  return `/messages/${this._id}`;
+  return `/messages/message/${this._id}`;
+});
+
+MessageSchema.virtual("publish_date_formatted").get(function () {
+  // We don't use an arrow function as we'll need the this object
+  return DateTime.fromJSDate(this.publish_date).toLocaleString(DateTime.DATE_MED);
 });
 
 // Export model

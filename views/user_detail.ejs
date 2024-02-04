@@ -1,0 +1,18 @@
+<strong><%=user.first_name%> <%=user.last_name%></strong>
+<div class="user-email"><%=user.username%> </div>
+<div class="user-membership">Member?: <%=user.membership%></div>
+<div class="user-admin">Admin?: <%=user.admin%></div>
+<% if(posts.length){ %>
+    <ul class="posts-list">
+        <% for(let post of posts){ %>
+            <li>
+                <a href="<%=post.url%>">
+                    <strong>
+                        <div class="post-publish-date"><%=post.publish_date_formatted%></a>
+                    </strong>
+                </a>
+                <div class="post-content"><%=post.message%></div>
+            </li>
+        <% } %>
+    </ul>
+<% } %>

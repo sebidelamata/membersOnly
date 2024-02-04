@@ -1,0 +1,11 @@
+<% if(user_list.length){ %>
+    <ul class="user-list">
+        <% for(let user of user_list){ %>
+            <li class="user">
+                <a class="user-content" href=<%=`/users/user/${user._id}`%>><%=user.first_name%> <%=user.last_name%></a>
+            </li>
+        <% } %>
+    </ul>
+<% } else { %>
+    <div class="no-users">There are no users.</div>
+<% } %>

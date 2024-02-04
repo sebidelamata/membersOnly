@@ -110,6 +110,7 @@ console.log(
   async function createMessages() {
     console.log("Adding messages");
     const originDate = new Date(2024, 1, 3)
+    let publishDate = new Date(originDate)
 
     await Promise.all([
       messageCreate(
@@ -121,25 +122,25 @@ console.log(
       messageCreate(
         index = 1,
         message = "I like ribs", 
-        publish_date = originDate.getDate() + 5, 
+        publish_date = publishDate.setDate(originDate.getDate() + 5), 
         user_id = users[0],
       ),
       messageCreate(
         index = 2,
         message = "Nice.", 
-        publish_date = originDate.getDate() + 3, 
+        publish_date = publishDate.setDate(originDate.getDate() + 3), 
         user_id = users[1],
       ),
       messageCreate(
         index = 3,
         message = "Next Tuesday There Will be a Meeting", 
-        publish_date = originDate.getDate() + 4, 
+        publish_date = publishDate.setDate(originDate.getDate() + 4), 
         user_id = users[0],
       ),
       messageCreate(
         index = 4,
         message = "I will be late", 
-        publish_date = originDate.getDate() + 5, 
+        publish_date = publishDate.setDate(originDate.getDate() + 5), 
         user_id = users[2],
       ),
     ]);
