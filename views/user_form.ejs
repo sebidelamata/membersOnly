@@ -1,0 +1,26 @@
+<h1><%=title%></h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="first_name">First Name:</label>
+        <input type="text" name="first_name" value="<%=user === null ? '' : user.first_name%>" placeholder="First Name">
+        <label for="last_name">Last Name:</label>
+        <input type="text" name="last_name" value="<%=user === null ? '' : user.last_name%>" placeholder="Last Name">
+        <label for="username">Email:</label>
+        <input type="email" name="username" value="<%=user === null ? '' : user.username%>" placeholder="example@example.com">
+        <label for="password">Password:</label>
+        <input type="password" name="password" value="<%=user === null ? '' : user.password%>" placeholder="somethingSecure">
+        <label for="password_confirm">Confirm Password:</label>
+        <input type="password" name="password_confirm" value="<%=user === null ? '' : user.password_confirm%>" placeholder="somethingSecure">
+        <% if(user !== null){ %>
+            <input type="hidden" value=<%=user._id%> name="_id">
+        <% } %>
+        <button type="submit">Submit</button>
+    </div>
+</form>
+<% if(errors !== null){ %>
+    <ul>
+        <% for(let error of errors){ %>
+            <li><%=error.msg%></li>
+        <% } %>
+    </ul>
+<% } %>

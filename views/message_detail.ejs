@@ -3,3 +3,5 @@
 </a>
 <div class="message-content"><%=message.message%></div>
 <div class="message-publish-date"><%=message.publish_date_formatted%></a>
+<a href="<%= `/messages/message/${message._id}/delete`%>">Delete</a>
+<a href="<%= `/messages/message/${message._id}/update`%>">Update</a>
