@@ -1,4 +1,8 @@
 
     <p>Welcome to <%= title %></p>
     <a href="/users/user/create">Create User</a>
+    <a href="/login">Login</a>
+    <%if(undefined !== login_user){%>
+        <div><%=`Welcome Back ${login_user.first_name} ${login_user.last_name}`%></div>    
+    <%}%>
 
