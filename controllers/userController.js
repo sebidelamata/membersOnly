@@ -79,7 +79,6 @@ exports.user_create_post = [
       last_name: req.body.last_name,
       username: req.body.username,
       password: req.body.password,
-      salt: 10,
       membership: false,
       admin: false
     })
@@ -174,7 +173,6 @@ exports.user_update_post = [
       last_name: req.body.last_name,
       username: req.body.username,
       password: req.body.password,
-      salt: 10,
       membership: false,
       admin: false,
       _id: req.body._id

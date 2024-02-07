@@ -26,4 +26,7 @@ router.get("/log-out", (req, res, next) => {
   });
 });
 
+router.get("/join_club", index_controller.user_join_club_get)
+router.post("/join_club", index_controller.user_join_club_post)
+
 module.exports = router;
