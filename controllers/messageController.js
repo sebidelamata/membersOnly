@@ -35,12 +35,15 @@ exports.message_detail = asyncHandler(async (req, res, next) => {
 
 // Display Message create form on GET.
 exports.message_create_get = asyncHandler(async (req, res, next) => {
-
-  res.render("message_form", {
-    title: "Create Message",
-    message: null,
-    errors: null
-  })
+  if(req.user && req.user.membership === true){
+    res.render("message_form", {
+      title: "Create Message",
+      message: null,
+      errors: null
+    })
+  } else {
+    res.redirect('/signup')
+  }
 });
 
 // Handle Message create on POST.
@@ -53,11 +56,9 @@ exports.message_create_post = [
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req)
 
-    const testUser = await User.findOne().exec()
-
     const message = new Message({
       message: req.body.message,
-      user_id: testUser._id,
+      user_id: req.user._id,
       publish_date: new Date()
     })
 
@@ -71,22 +72,24 @@ exports.message_create_post = [
       await message.save()
       res.redirect("/messages")
     }
-
-    res.send("NOT IMPLEMENTED: Message create POST");
   }),
 
 ]
 
 // Display Message delete form on GET.
 exports.message_delete_get = asyncHandler(async (req, res, next) => {
-  const message = await Message.findById(req.params.id).exec()
+  if(req.user && req.user.membership === true && (req.user._id === req.params.id || req.user.admin === true)){
+    const message = await Message.findById(req.params.id).exec()
 
-  if(message === null){
-    res.redirect('/messages')
+    if(message === null){
+      res.redirect('/messages')
+    }
+    res.render("message_delete", {
+      message: message
+    })
+  } else {
+    res.redirect('/')
   }
-  res.render("message_delete", {
-    message: message
-  })
 });
 
 // Handle Message delete on POST.
@@ -97,21 +100,25 @@ exports.message_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display Message update form on GET.
 exports.message_update_get = asyncHandler(async (req, res, next) => {
-  const message = await Message.findById(req.params.id)
-  .populate("user_id")
-  .exec()
+  if(req.user && req.user.membership === true && (req.user._id === req.params.id || req.user.admin === true)){
+    const message = await Message.findById(req.params.id)
+    .populate("user_id")
+    .exec()
 
-  if(message === null){
-    const err = new Error("Message not found")
-    err.status = 404
-    return next(err)
+    if(message === null){
+      const err = new Error("Message not found")
+      err.status = 404
+      return next(err)
+    }
+
+    res.render("message_form", {
+      title: "Update Message",
+      message: message,
+      errors: null,
+    })
+  } else {
+    res.redirect('/')
   }
-
-  res.render("message_form", {
-    title: "Update Message",
-    message: message,
-    errors: null,
-  })
 });
 
 // Handle Message update on POST.

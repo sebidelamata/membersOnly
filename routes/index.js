@@ -8,6 +8,8 @@ const index_controller = require("../controllers/indexController");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  console.log(res.locals)
+  if(res.locals.currentUser !== undefined && res.locals.currentUser.membership === false){res.redirect('/join_club')}
   res.render('index', { title: 'Members Only', login_user: req.user});
 });
 

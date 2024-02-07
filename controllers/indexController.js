@@ -33,7 +33,7 @@ exports.user_signup_post = asyncHandler(async (req,res,next) => {
         admin: false
       });
       const result = await user.save();
-      res.redirect("/");
+      res.redirect("/login");
     }) 
   }catch(err) {
     return next(err);
@@ -54,7 +54,7 @@ exports.user_join_club_post = [
   asyncHandler(async(req, res, next) => {
       const errors = validationResult(req)
 console.log(req)
-      let currentUser = await User.findById(req.user._id) 
+      let currentUser = await User.findById(res.locals.currentUser._id) 
       currentUser.membership = true
       if(!errors.isEmpty()){
         res.redirect("/")

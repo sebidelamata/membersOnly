@@ -1,7 +1,9 @@
 <strong><%=user.first_name%> <%=user.last_name%></strong>
 <div class="user-email"><%=user.username%> </div>
-<div class="user-membership">Member?: <%=user.membership%></div>
-<div class="user-admin">Admin?: <%=user.admin%></div>
+<%if(locals.currentUser && locals.currentUser.admin === true){%>
+    <div class="user-membership">Member?: <%=user.membership%></div>
+    <div class="user-admin">Admin?: <%=user.admin%></div>  
+<%}%>
 <% if(posts.length){ %>
     <ul class="posts-list">
         <% for(let post of posts){ %>
@@ -16,5 +18,7 @@
         <% } %>
     </ul>
 <% } %>
-<a href="<%= `/users/user/${user._id}/delete`%>">Delete</a>
-<a href="<%= `/users/user/${user._id}/update`%>">Update</a>
+<%if(locals.currentUser._id === user._id){%>
+    <a href="<%= `/users/user/${user._id}/delete`%>">Delete</a>
+    <a href="<%= `/users/user/${user._id}/update`%>">Update</a>
+<%}%>

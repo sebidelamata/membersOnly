@@ -1,7 +1,10 @@
 <a href="<%=message.user_id.url%>">
-    <strong><%=message.user_id.fullname%></strong>
+    <strong><%=message.user_id.first_name%> <%=message.user_id.last_name%></strong>
 </a>
 <div class="message-content"><%=message.message%></div>
 <div class="message-publish-date"><%=message.publish_date_formatted%></a>
-<a href="<%= `/messages/message/${message._id}/delete`%>">Delete</a>
-<a href="<%= `/messages/message/${message._id}/update`%>">Update</a>
+<%if(locals.currentUser && locals.currentUser._id.toString() === message.user_id._id.toString()){%>
+    <%=console.log(message)%>
+    <a href="<%= `/messages/message/${message._id}/delete`%>">Delete</a>
+    <a href="<%= `/messages/message/${message._id}/update`%>">Update</a>
+<%}%>

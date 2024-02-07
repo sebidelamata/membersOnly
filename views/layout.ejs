@@ -14,9 +14,15 @@
     <h1>A club based message board</h1>
     <a href="/">Home</a>
     <a href="/messages">Feed</a>
-    <a href="/messages/message/create">Create Post</a>
-    <a href="/users">Users</a>
-    <a href="/log-out">LOG OUT</a>
+    <%if(locals.currentUser){%>
+        <a href="/messages/message/create">Create Post</a>
+    <%}%>
+    <%if(locals.currentUser && locals.currentUser.admin === true){%>
+        <a href="/users">Users</a>
+    <%}%>
+    <%if(locals.currentUser){%>
+        <a href="/log-out">LOG OUT</a>
+    <%}%>
     <%if(undefined !== locals.currentUser){%>
     <strong><%=locals.currentUser.first_name%> <%=locals.currentUser.last_name%></strong>
     <% } %>

@@ -5,13 +5,17 @@ const { body, validationResult } = require("express-validator");
 
 // Display list of all Users.
 exports.user_list = asyncHandler(async (req, res, next) => {
-  const allUsers = await User.find({})
-    .sort({ last_name: 1 })
-    .exec()
+  if(req.user.admin === true){
+    const allUsers = await User.find({})
+      .sort({ last_name: 1 })
+      .exec()
 
-  res.render("user_list", { 
-    user_list: allUsers
-    })
+    res.render("user_list", { 
+      user_list: allUsers
+      })
+  } else {
+    res.redirect('/')
+  }
 });
 
 // Display detail page for a specific User.
@@ -102,15 +106,19 @@ exports.user_create_post = [
 
 // Display User delete form on GET.
 exports.user_delete_get = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.params.id).exec()
+  if(req.user && (req.user._id === req.params.id || req.user.admin === true)){
+    const user = await User.findById(req.params.id).exec()
 
-  if(user === null){
-    res.redirect("/users")
+    if(user === null){
+      res.redirect("/users")
+    }
+
+    res.render("user_delete", {
+      user: user
+    })
+  } else {
+    res.redirect('/')
   }
-
-  res.render("user_delete", {
-    user: user
-  })
 });
 
 // Handle User delete on POST.
@@ -121,20 +129,24 @@ exports.user_delete_post = asyncHandler(async (req, res, next) => {
 
 // Display User update form on GET.
 exports.user_update_get = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.params.id)
-  .exec()
+  if(req.user && (req.user._id === req.params.id || req.user.admin === true)){
+    const user = await User.findById(req.params.id)
+    .exec()
 
-  if(user === null){
-    const err = new Error("User not found")
-    err.status = 404
-    return next(err)
+    if(user === null){
+      const err = new Error("User not found")
+      err.status = 404
+      return next(err)
+    }
+
+    res.render("user_form", {
+      title: "Update User",
+      user: user,
+      errors: null,
+    })
+  } else {
+    res.redirect('/')
   }
-
-  res.render("user_form", {
-    title: "Update User",
-    user: user,
-    errors: null,
-  })
 });
 
 // Handle User update on POST.

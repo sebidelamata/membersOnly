@@ -2,7 +2,7 @@
     <ul class="message-list">
         <% for(let message of message_list){ %>
             <li class="message">
-                <%if(message.user_id){ %>
+                <%if(message.user_id && locals.currentUser && locals.currentUser.membership === true){ %>
                     <a href="<%=message.user_id.url%>">
                         <strong><%=message.user_id.name%></strong>
                     </a>
